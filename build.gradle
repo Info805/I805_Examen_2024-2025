@@ -8,6 +8,7 @@
 
 plugins {
     id 'java'
+    id 'jacoco'
     id "org.xbib.gradle.plugin.jflex" version "1.7.0"
     id 'org.hvb.java-cup' version '0.1+'
 }
@@ -25,6 +26,14 @@ dependencies {
     // cupGeneration 'com.github.vbmacher:java-cup:11b-20160615-1'
     // on a aussi besoin du runtime CUP pour la compilation et l'execution
     // implementation 'com.github.vbmacher:java-cup-runtime:11b-20160615-1'
+    
+    // Use JUnit Jupiter API for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    // testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
 }
 
 sourceSets {
@@ -58,6 +67,8 @@ cup {
 }
 
 jar {
+    // on ajoute le runtime cup
+    // car on en a besoin pour faire tourner l'analyseur 
     from {
         configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
@@ -70,7 +81,25 @@ jar {
 
 compileJava.options.encoding = 'UTF-8'
 
-build.mustRunAfter clean
+tasks.named('build') {
+    mustRunAfter clean
+}
+
+tasks.named('test', Test) {
+    finalizedBy(jacocoTestReport)
+    // utilisation de JUnit 5 pour les tests
+    useJUnitPlatform()
+    // show test results
+    testLogging.events("passed", "skipped", "failed")
+}
+
+tasks.named('jacocoTestReport', JacocoReport) {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
 
 // on configure le plugin eclipse s'il est actif
 pluginManager.withPlugin('eclipse'){
