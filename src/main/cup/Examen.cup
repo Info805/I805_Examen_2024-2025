@@ -18,7 +18,7 @@ parser code {:
 :};
 
  init with {:
-    //	initialisation du parser
+    //    initialisation du parser
 :};
 
 /* symboles terminaux */
@@ -32,21 +32,24 @@ non terminal Arbre tab, lignes, cols, col , debut, fin ;
 
 /* grammaire */
 
-tab	::=   debut:f lignes:l fin 	{: RESULT = new Arbre(NodeType.TABULAR, null, f, l); :} ;
+tab    ::= debut:f lignes:l fin     {: RESULT = new Arbre(NodeType.TABULAR, null, f, l); :}
+         ;
 
-debut 	::= DEBUT GAUCHE TABULAR DROITE GAUCHE COLS:f DROITE {: RESULT = new Arbre(NodeType.COLS, f); :}  ;
+debut  ::= DEBUT GAUCHE TABULAR DROITE GAUCHE COLS:f DROITE {: RESULT = new Arbre(NodeType.COLS, f); :}
+         ;
 
-fin 	::= FIN GAUCHE TABULAR DROITE ;
+fin    ::= FIN GAUCHE TABULAR DROITE
+         ;
 
-lignes  ::= cols:c FINLIGNE lignes:l	{: RESULT = new Arbre(NodeType.LIGNE, null, c, l); :}
-          |  
-          ;
+lignes ::= cols:c FINLIGNE lignes:l {: RESULT = new Arbre(NodeType.LIGNE, null, c, l); :}
+         |  
+         ;
 
-cols 	::= col:c ET cols:r		{: RESULT = new Arbre(NodeType.ET, null, c, r); :}
-		  | col:c				{: RESULT = c ; :}
-		  ;
-		  
-col 	::= ENTIER:i			{: RESULT = new Arbre(NodeType.ENTIER, i); :}
-		  | 
-		  ;
-		  
+cols   ::= col:c ET cols:r          {: RESULT = new Arbre(NodeType.ET, null, c, r); :}
+         | col:c                    {: RESULT = c ; :}
+         ;
+          
+col    ::= ENTIER:i                 {: RESULT = new Arbre(NodeType.ENTIER, i); :}
+         | 
+         ;
+          

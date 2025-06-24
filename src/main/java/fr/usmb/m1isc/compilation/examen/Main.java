@@ -13,18 +13,18 @@ public class Main {
         if (args.length > 0)
             lexer = new Lexer(new FileReader(args[0]));
         else {
-        	Reader in0 = new StringReader("\\begin{tabular}{clr}\r\n" + 
-        			"12 & 256 & 3 \\\\\r\n" + 
-        			"32 & & 61 \\\\\r\n" + 
-        			"123 & 12 \\\\\r\n" + 
-        			"\\end{tabular}\r\n" + 
-        			"");
-        	Reader in = new StringReader(
-        			"\\begin{tabular}{rr}\r\n" + 
-        			"1 & 2  \\\\\r\n" + 
-        			"3 & 4  \\\\\r\n" + 
-        			"\\end{tabular}\r\n" );
-        	lexer = new Lexer(in0);
+            Reader in0 = new StringReader("\\begin{tabular}{clr}\r\n" + 
+                    "12 & 256 & 3 \\\\\r\n" + 
+                    "32 & & 61 \\\\\r\n" + 
+                    "123 & 12 \\\\\r\n" + 
+                    "\\end{tabular}\r\n" + 
+                    "");
+            Reader in = new StringReader(
+                    "\\begin{tabular}{rr}\r\n" + 
+                    "1 & 2  \\\\\r\n" + 
+                    "3 & 4  \\\\\r\n" + 
+                    "\\end{tabular}\r\n" );
+            lexer = new Lexer(in0);
             //lexer = new Lexer(new InputStreamReader(System.in));
         }
         @SuppressWarnings("deprecation")
@@ -34,7 +34,7 @@ public class Main {
         System.out.println(a);
         a.verifCols("", 0, 0);
         StringBuffer html = new StringBuffer();
-        a.genHtml(html );
+        a.genHtml(html);
         System.out.println(html);
     }
 }

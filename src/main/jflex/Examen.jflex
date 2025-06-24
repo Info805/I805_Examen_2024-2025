@@ -25,20 +25,20 @@ import java_cup.runtime.Symbol;
 /* definitions regulieres */
 entier  =   [0-9]+
 espace  =   \s 
-cols 	= 	[clr]+
+cols    =   [clr]+
 
 %% 
 /* ------------------------Section des Regles Lexicales----------------------*/
 
 /* regles */
 {espace}+       { /* pas d'action */ }
-{entier}        { return new Symbol(sym.ENTIER, new Integer(yytext())); }
+{entier}        { return new Symbol(sym.ENTIER, Integer.parseInt(yytext())); }
 "\\begin"       { return new Symbol(sym.DEBUT); }
-"\\end"       	{ return new Symbol(sym.FIN); }
+"\\end"         { return new Symbol(sym.FIN); }
 "tabular"       { return new Symbol(sym.TABULAR); }
-"{"       		{ return new Symbol(sym.GAUCHE); }
-"}"       		{ return new Symbol(sym.DROITE); }
-"&"       		{ return new Symbol(sym.ET); }
-"\\\\"       	{ return new Symbol(sym.FINLIGNE); }
-{cols}			{ return new Symbol(sym.COLS, yytext()); }
+"{"             { return new Symbol(sym.GAUCHE); }
+"}"             { return new Symbol(sym.DROITE); }
+"&"             { return new Symbol(sym.ET); }
+"\\\\"          { return new Symbol(sym.FINLIGNE); }
+{cols}          { return new Symbol(sym.COLS, yytext()); }
 .               { return new Symbol(sym.ERROR); }
