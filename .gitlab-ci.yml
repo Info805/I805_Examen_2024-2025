@@ -13,7 +13,7 @@ workflow:
     GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
   stage: build
   script:
-    - ./gradlew build
+    - ./gradlew --warning-mode=all build
   cache:
     - key:
         files:
@@ -25,7 +25,6 @@ workflow:
         - master-protected
       paths:
         - .gradle/caches
-
   artifacts:
     when: always
     paths:
@@ -37,20 +36,16 @@ workflow:
 build:java8:
   extends: .build
   image: eclipse-temurin:8-jdk
-  script:
-    - ./gradlew build  
 
 build:java11:
   extends: .build
   image: eclipse-temurin:11.0.27_6-jdk
-  script:
-    - ./gradlew build  
 
 build:java17:
   extends: .build
   image: eclipse-temurin:17.0.15_6-jdk
   script:
-    - ./gradlew build jacocoTestReport
+    - ./gradlew --warning-mode=all build jacocoTestReport
     - cat build/reports/jacoco/test/html/index.html
   coverage: '/Total.*?([0-9]{1,3}) ?%/'
   artifacts:
@@ -62,11 +57,7 @@ build:java17:
 build:java21:
   extends: .build
   image: eclipse-temurin:21.0.7_6-jdk
-  script:
-    - ./gradlew build  
 
 build:java24:
   extends: .build
   image: eclipse-temurin:24-jdk
-  script:
-    - ./gradlew build  
