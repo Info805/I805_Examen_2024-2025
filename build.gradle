@@ -28,7 +28,7 @@ dependencies {
     // implementation 'com.github.vbmacher:java-cup-runtime:11b-20160615-1'
     
     // Use JUnit Jupiter API for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.14.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.14.1'
     // testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
 
     // Use JUnit Jupiter Engine for testing.
