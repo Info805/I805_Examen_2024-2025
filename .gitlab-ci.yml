@@ -39,11 +39,11 @@ build:java8:
 
 build:java11:
   extends: .build
-  image: eclipse-temurin:11.0.28_6-jdk
+  image: eclipse-temurin:11.0.29_7-jdk
 
 build:java17:
   extends: .build
-  image: eclipse-temurin:17.0.16_8-jdk
+  image: eclipse-temurin:17.0.17_10-jdk
   script:
     - ./gradlew --warning-mode=all build jacocoTestReport
     - cat build/reports/jacoco/test/html/index.html
@@ -56,7 +56,7 @@ build:java17:
 
 build:java21:
   extends: .build
-  image: eclipse-temurin:21.0.8_9-jdk
+  image: eclipse-temurin:21.0.9_10-jdk
 
 build:java24:
   extends: .build
