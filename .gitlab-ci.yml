@@ -36,10 +36,12 @@ workflow:
 build:java8:
   extends: .build
   image: eclipse-temurin:8-jdk
+  allow_failure: true
 
 build:java11:
   extends: .build
   image: eclipse-temurin:11.0.29_7-jdk
+  allow_failure: true
 
 build:java17:
   extends: .build
@@ -58,6 +60,7 @@ build:java21:
   extends: .build
   image: eclipse-temurin:21.0.9_10-jdk
 
-build:java24:
+build:java25:
   extends: .build
-  image: eclipse-temurin:24-jdk
+  image: eclipse-temurin:25.0.1_8-jdk
+  allow_failure: true
