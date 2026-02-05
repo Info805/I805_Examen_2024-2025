@@ -94,7 +94,6 @@ public class Arbre {
             if ( col + 2 > format.length()) {
                 throw new TabularFormatException("Too many columns", line+1, col+2);
             } else {
-                this.format = format.charAt(col);
                 if (fg != null) fg.verifCols(format, line, col);
                 if (fd != null) fd.verifCols(format, line, col+1);
             }
