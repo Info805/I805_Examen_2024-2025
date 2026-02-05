@@ -5,7 +5,7 @@ import java_cup.runtime.Symbol;
 import fr.usmb.m1isc.compilation.examen.Arbre;
 import fr.usmb.m1isc.compilation.examen.Arbre.NodeType;
 // nom de la classe a generer
-//class SimpleParser;
+class TableParser;
 
 /* inclusion du code */
 

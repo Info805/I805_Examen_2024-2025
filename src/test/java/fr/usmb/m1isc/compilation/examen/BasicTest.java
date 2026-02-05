@@ -19,32 +19,32 @@ import fr.usmb.m1isc.compilation.examen.Arbre.NodeType;
 public class BasicTest {
     
     @Nested
-    @DisplayName("Parser tests")
+    @DisplayName("TableParser tests")
     class ParserTest {
         
         Reader in;
         PrintStream out;
         PrintStream err;
         
-        parser createParser(Reader in, PrintStream out, PrintStream err) throws Exception {
+        TableParser createParser(Reader in, PrintStream out, PrintStream err) throws Exception {
             System.setOut(out);
             System.setErr(err);
-            Lexer lexer = new Lexer(in);
+            TableLexer lexer = new TableLexer(in);
             @SuppressWarnings("deprecation")
-            parser p = new parser(lexer);
+            TableParser p = new TableParser(lexer);
             return p;
         }
         
-        parser createParser(Reader in) throws Exception {
+        TableParser createParser(Reader in) throws Exception {
             ByteArrayOutputStream baout = new ByteArrayOutputStream();
             PrintStream out = new PrintStream(baout, true);
             ByteArrayOutputStream baerr = new ByteArrayOutputStream();
             PrintStream err = new PrintStream(baerr, true);
             System.setOut(out);
             System.setErr(err);
-            Lexer lexer = new Lexer(in);
+            TableLexer lexer = new TableLexer(in);
             @SuppressWarnings("deprecation")
-            parser p = new parser(lexer);
+            TableParser p = new TableParser(lexer);
             return p;
         }
         
@@ -62,7 +62,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 assertEquals("", baout.toString());
                 assertEquals("", baerr.toString());
@@ -79,7 +79,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 assertEquals("", baout.toString());
                 assertEquals("", baerr.toString());
@@ -88,9 +88,9 @@ public class BasicTest {
             
             @Test
             void tableCanHaveEmptyCells () throws Exception {
-                String arbreExpected = "tabular(cols:clr, \\\\(&(12, &(256, 3)), \\\\(&(32, &(null, 61)), \\\\(&(123, 12), null))))";
+                String arbreExpected = "tabular(cols:clr, \\\\(&(12, &(256, null)), \\\\(&(32, &(null, 61)), \\\\(&(123, 12), null))))";
                 Reader in = new StringReader("\\begin{tabular}{clr}\r\n" + 
-                        "12 & 256 & 3 \\\\\r\n" + 
+                        "12 & 256 & \\\\\r\n" + 
                         "32 & & 61 \\\\\r\n" + 
                         "123 & 12 \\\\\r\n" + 
                         "\\end{tabular}\r\n");
@@ -98,7 +98,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 assertEquals("", baout.toString());
                 assertEquals("", baerr.toString());
@@ -115,7 +115,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 assertEquals("", baout.toString());
                 assertEquals("", baerr.toString());
@@ -133,7 +133,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 assertEquals("", baout.toString());
                 assertEquals("", baerr.toString());
@@ -151,7 +151,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 assertThrows(Exception.class, ()->p.parse());
                 assertTrue(baerr.toString().contains("Syntax error"));
             }
@@ -166,7 +166,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 assertThrows(Exception.class, ()->p.parse());
                 assertTrue(baout.toString().length() > 0);
                 assertTrue(baerr.toString().contains("Syntax error"));
@@ -182,7 +182,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 assertThrows(Exception.class, ()->p.parse());
                 assertTrue(baout.toString().length() > 0);
                 assertTrue(baerr.toString().contains("Syntax error"));
@@ -197,7 +197,7 @@ public class BasicTest {
                         "1 & 2  \\\\\r\n" + 
                         "3 & 4  \\\\\r\n" + 
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
                 assertDoesNotThrow(()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
             }
             
@@ -209,7 +209,7 @@ public class BasicTest {
                         "1 & 2 & 3 \\\\\r\n" + 
                         " & 5  \\\\\r\n" + 
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
                 Arbre a = (Arbre)p.parse().value;
                 a.verifCols(null, 0, 0);
                 assertEquals(arbreExpected, a.toString());
@@ -240,7 +240,7 @@ public class BasicTest {
                         "32 & & 61 \\\\\r\n" + 
                         "123 & 12 \\\\\r\n" + 
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
                 assertDoesNotThrow(()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
             }
             
@@ -249,7 +249,7 @@ public class BasicTest {
                 Reader in = new StringReader(
                         "\\begin{tabular}{rr}\r\n" +
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
                 assertDoesNotThrow(()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
             }
             
@@ -259,7 +259,7 @@ public class BasicTest {
                         "\\begin{tabular}{rr}\r\n" +
                         "\\\\\r\n" +
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
                 assertDoesNotThrow(()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
             }
 
@@ -271,7 +271,19 @@ public class BasicTest {
                         "1 & 2  \\\\\r\n" + 
                         "3 & 4 & 5 \\\\\r\n" + 
                         "\\end{tabular}\r\n");
-                parser p = createParser(in);
+                TableParser p = createParser(in);
+                TabularFormatException e = assertThrows(TabularFormatException.class, ()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
+                assertEquals(expectedException, e.toString());
+            }
+            @Test
+            void tableCannotHaveTooManyColumnsEvenEmpty () throws Exception {
+                String expectedException = TabularFormatException.class.getName() + ": Too many columns line 2 col 3";
+                Reader in = new StringReader(
+                        "\\begin{tabular}{rr}\r\n" + 
+                        "1 &  \\\\\r\n" + 
+                        "3 & 4 & \\\\\r\n" + 
+                        "\\end{tabular}\r\n");
+                TableParser p = createParser(in);
                 TabularFormatException e = assertThrows(TabularFormatException.class, ()-> ((Arbre)p.parse().value).verifCols("", 0, 0));
                 assertEquals(expectedException, e.toString());
             }
@@ -294,7 +306,7 @@ public class BasicTest {
                 PrintStream out = new PrintStream(baout, true);
                 ByteArrayOutputStream baerr = new ByteArrayOutputStream();
                 PrintStream err = new PrintStream(baerr, true);
-                parser p = createParser(in, out, err);
+                TableParser p = createParser(in, out, err);
                 Arbre a = (Arbre)p.parse().value;
                 a.verifCols("", 0, 0);
                 String actualHtml = a.genHtml(new StringBuffer()).toString();

@@ -6,14 +6,14 @@ import java_cup.runtime.Symbol;
 
 /* -----------------Section des Declarations et Options----------------------*/
 // nom de la class a generer
-%class Lexer
+%class TableLexer
 %unicode
 %line   // numerotation des lignes
 %column // numerotation caracteres par ligne
 
 // utilisation avec CUP
 // nom de la classe generee par CUP qui contient les symboles terminaux
-%cupsym sym
+%cupsym TableParserSym
 // generation analyser lexical pour CUP
 %cup
 
@@ -32,13 +32,13 @@ cols    =   [clr]+
 
 /* regles */
 {espace}+       { /* pas d'action */ }
-{entier}        { return new Symbol(sym.ENTIER, Integer.parseInt(yytext())); }
-"\\begin"       { return new Symbol(sym.DEBUT); }
-"\\end"         { return new Symbol(sym.FIN); }
-"tabular"       { return new Symbol(sym.TABULAR); }
-"{"             { return new Symbol(sym.GAUCHE); }
-"}"             { return new Symbol(sym.DROITE); }
-"&"             { return new Symbol(sym.ET); }
-"\\\\"          { return new Symbol(sym.FINLIGNE); }
-{cols}          { return new Symbol(sym.COLS, yytext()); }
-.               { return new Symbol(sym.ERROR); }
+{entier}        { return new Symbol(TableParserSym.ENTIER, Integer.parseInt(yytext())); }
+"\\begin"       { return new Symbol(TableParserSym.DEBUT); }
+"\\end"         { return new Symbol(TableParserSym.FIN); }
+"tabular"       { return new Symbol(TableParserSym.TABULAR); }
+"{"             { return new Symbol(TableParserSym.GAUCHE); }
+"}"             { return new Symbol(TableParserSym.DROITE); }
+"&"             { return new Symbol(TableParserSym.ET); }
+"\\\\"          { return new Symbol(TableParserSym.FINLIGNE); }
+{cols}          { return new Symbol(TableParserSym.COLS, yytext()); }
+.               { return new Symbol(TableParserSym.ERROR); }

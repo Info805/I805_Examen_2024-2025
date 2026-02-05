@@ -9,9 +9,9 @@ import java_cup.runtime.Symbol;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Lexer lexer;
+        TableLexer lexer;
         if (args.length > 0)
-            lexer = new Lexer(new FileReader(args[0]));
+            lexer = new TableLexer(new FileReader(args[0]));
         else {
             Reader in0 = new StringReader("\\begin{tabular}{clr}\r\n" + 
                     "12 & 256 & 3 \\\\\r\n" + 
@@ -24,11 +24,11 @@ public class Main {
                     "1 & 2  \\\\\r\n" + 
                     "3 & 4  \\\\\r\n" + 
                     "\\end{tabular}\r\n" );
-            lexer = new Lexer(in0);
-            //lexer = new Lexer(new InputStreamReader(System.in));
+            lexer = new TableLexer(in0);
+            //lexer = new TableLexer(new InputStreamReader(System.in));
         }
         @SuppressWarnings("deprecation")
-        parser p = new parser(lexer);
+        TableParser p = new TableParser(lexer);
         Symbol res = p.parse();
         Arbre a = (Arbre)res.value;
         System.out.println(a);
